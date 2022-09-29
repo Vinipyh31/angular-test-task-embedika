@@ -1,0 +1,37 @@
+.ship-page {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: 1fr 393px;
+
+    .ship-list {
+        padding: 62px 64px;
+        background: #FAFAFA;
+    }
+
+    .filters {
+        padding: 52px 32px;
+        border-left: 1px solid #A5A5A5;
+
+        h2 {
+            font-weight: 400;
+        }
+
+        .search-name {
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+            outline: none;
+            &:focus {
+                border-bottom: 1px solid #347CFF;
+                outline: none;
+            }
+            
+        }
+
+        .search-type {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

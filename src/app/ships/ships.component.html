@@ -1,0 +1,41 @@
+<div class="ship-page">
+    <div class="ship-list">
+        {{type}}
+    </div>
+    <div class="filters">
+        <h2>Фильтры</h2>
+        <input class="search-name" type="text" placeholder="Название">
+
+        <div class="multiselect">
+            <div class="selectBox" onclick="showCheckboxes()">
+                <select>
+                    <option>Select an option</option>
+                </select>
+                <div class="overSelect"></div>
+            </div>
+            <div id="checkboxes">
+                <label for="one">
+                    <input type="checkbox" id="one" />First checkbox</label>
+                <label for="two">
+                    <input type="checkbox" id="two" />Second checkbox</label>
+                <label for="three">
+                    <input type="checkbox" id="three" />Third checkbox</label>
+            </div>
+        </div>
+        
+        <div class="search-type">
+            <label>
+                <input type="radio" value="Barge" (click)="onRadioChange($event)" name="type" id="1">Barge
+            </label>
+            <label>
+                <input type="radio" value="Cargo" (click)="onRadioChange($event)" name="type" id="2">Cargo
+            </label>
+            <label>
+                <input type="radio" value="High Speed Craft" (click)="onRadioChange($event)" name="type" id="3">High Speed Craft
+            </label>
+            <label>
+                <input type="radio" value="Tug" (click)="onRadioChange($event)" name="type" id="4">Tug
+            </label>
+        </div>
+    </div>
+</div>
