@@ -10,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
 export class ShipsComponent implements OnInit {
 
   type = "";
+  expanded = false;
+  ports: String[] = [];
 
 
   constructor() {
@@ -18,7 +20,17 @@ export class ShipsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onRadioChange(e : Event): void {
+  onCheckBoxClick(e: Event): void {
+    let target = e.target as HTMLInputElement;
+    if (this.ports.includes(target.value)) {
+      this.ports = this.ports.filter(port => port !== target.value);
+    } else {
+      this.ports = [...this.ports, target.value];
+    }
+  }
+
+
+  onRadioClick(e: Event): void {
     let target = e.target as HTMLInputElement;
     if (target.value == this.type) {
       target.checked = false;
@@ -29,6 +41,14 @@ export class ShipsComponent implements OnInit {
     }
   }
 
-  
+  showCheckboxes(): void {
+    if (!this.expanded) {
+      this.expanded = true;
+    } else {
+      this.expanded = false;
+    }
+  }
+
+
 
 }

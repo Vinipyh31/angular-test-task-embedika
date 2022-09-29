@@ -15,6 +15,7 @@
 
         h2 {
             font-weight: 400;
+            margin-bottom: 48px;
         }
 
         .search-name {
@@ -22,16 +23,108 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.3);
             font-size: 16px;
             outline: none;
+            width: 100%;
+            padding-bottom: 7px;
+            margin-bottom: 41px;
+
             &:focus {
                 border-bottom: 1px solid #347CFF;
                 outline: none;
             }
-            
+
+        }
+
+        .multiselect {
+            width: 100%;
+            height: auto;
+
+            .selectBox {
+                position: relative;
+                width: 100%;
+                outline: none;
+
+                span {
+                    display: block;
+                    font-size: 14px;
+                }
+
+                select {
+                    width: 100%;
+                    font-weight: bold;
+                    border: none;
+                    padding-bottom: 7px;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+
+                    option {
+                        width: 100%;
+                    }
+
+                    &:-ms-expand {
+                        display: none;
+                    }
+                }
+            }
+
+            .overSelect {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+
+            #checkboxes {
+                display: none;
+                box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.23), 0px 3px 6px rgba(0, 0, 0, 0.16);
+                width: 100%;
+                height: auto;
+                flex-direction: column;
+
+                label {
+                    display: flex;
+                    padding: 6px 19px;
+                    align-items: center;
+
+                    &:first-child {
+                        padding-top: 12px;
+                    }
+
+                    &:last-child {
+                        padding-bottom: 12px;
+                    }
+
+                    input {
+                        width: 18px;
+                        height: 18px;
+                        margin-right: 13px;
+                    }
+                }
+            }
         }
 
         .search-type {
             display: flex;
             flex-direction: column;
+            margin-top: 24px;
+
+            span {
+                font-weight: 700;
+            }
+
+            label {
+                display: flex;
+                padding: 10px 0;
+                align-items: center;
+                ;
+
+                input {
+                    margin-right: 28px;
+                    width: 16px;
+                    height: 16px;
+                }
+            }
         }
     }
 }
