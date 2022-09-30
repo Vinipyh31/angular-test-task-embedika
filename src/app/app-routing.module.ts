@@ -4,7 +4,7 @@ import { ShipDetailComponent } from './ship-detail/ship-detail.component';
 import { ShipsComponent } from './ships/ships.component';
 
 const routes: Routes = [
-  {path: '', redirectTo:'', pathMatch: 'full'},
+  {path: '', redirectTo:'ships', pathMatch: 'full'},
   {path: 'ships', component: ShipsComponent},
   {path: 'ship/:id', component: ShipDetailComponent}
 ];
