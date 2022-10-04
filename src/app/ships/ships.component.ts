@@ -1,3 +1,4 @@
+import { ShipsService } from './../ships.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,12 +13,15 @@ export class ShipsComponent implements OnInit {
   type = "";
   expanded = false;
   ports: String[] = [];
+  ships = [];
+  page = 0;
 
 
-  constructor() {
+  constructor(private client: ShipsService ) {
   }
 
   ngOnInit(): void {
+
   }
 
   onCheckBoxClick(e: Event): void {
