@@ -1,10 +1,24 @@
 <div class="ship-page">
     <div class="ship-list">
-        {{ports}}
+        <div *ngIf="isLoading" [ngStyle]="{
+            'width': '100%',
+            'height':'100%',
+                'display':'flex',
+                'justify-content': 'center',
+                'align-items': 'center'
+            }">
+            <app-loader></app-loader>
+        </div>
+        <div *ngIf="!isLoading">
+            <span class="title">SpaceX Ships</span>
+            <div *ngFor="let ship of shipsOnPage">
+                <app-ship-item [ship]="ship"></app-ship-item>
+            </div>
+        </div>
     </div>
     <div class="filters">
         <h2>Фильтры</h2>
-        <input class="search-name" type="text" placeholder="Название">
+        <input class="search-name" type="text" [(ngModel)]="nameInput" placeholder="Название">
 
         <div class="multiselect">
             <div class="selectBox" (click)="showCheckboxes()">

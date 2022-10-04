@@ -1,6 +1,6 @@
+import { IShip } from './types';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Apollo, gql } from 'apollo-angular';
 
 
 
@@ -12,28 +12,34 @@ export class ShipsService {
 
   url = 'https://api.spacex.land/graphql';
 
-  constructor(private apollo: Apollo) { }
+  constructor() { }
 
-  getShipById(shipId: string, ship: string) {
-    this.apollo
-      .watchQuery({
-        query: gql`
+  getShipById(shipId: string, ship: IShip) {
+    fetch(this.url, {
+      method: 'POST',
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        query: `
+        query {
           ship(id: "${shipId}") {
-          name
-          type
-          home_port
-          year_built
-          weight_kg
-          missions {
             name
-            flight
+            type
+            home_port
+            year_built
+            weight_kg
+            missions {
+              name
+            }
           }
-        }
-        `,
+        }`
       })
-      .valueChanges.subscribe((result: any) => {
-        ship = result?.data;
-      });
+    })
+      .then(res => res.json())
+      .then(res => { ship = res.data })
   }
 
   getShips(
@@ -41,26 +47,37 @@ export class ShipsService {
     name: string,
     homePort: string,
     pageNumber: number,
-    ships: string
+    ships: IShip[],
+    isLoading: boolean,
   ) {
     const offset = (pageNumber - 1) * 3;
-    this.apollo
-      .watchQuery({
-        query: gql`
-          {
-            ships(find: {type: "${type}", name: "${name}", home_port: "${homePort}"}, offset: ${offset}) {
-              weight_kg
-              type
-              name
-              home_port
-              id
+    fetch(this.url, {
+      method: 'POST',
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        query: `
+        query {
+          ships {
+                weight_kg
+                type
+                name
+                home_port
+                id
             }
-          }
-        `,
+        }
+        `
       })
-      .valueChanges.subscribe((result: any) => {
-        ships = result?.data;
-      });
+    })
+      .then(res => res.json())
+      .then(res => { 
+        ships = res.data; 
+        console.log(ships);
+        isLoading = false;
+       })
   }
 
 }
