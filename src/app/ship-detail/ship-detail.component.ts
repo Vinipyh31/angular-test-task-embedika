@@ -2,6 +2,8 @@ import { ShipsService } from './../ships.service';
 import { Component, OnInit } from '@angular/core';
 import { IShip } from '../types';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-ship-detail',
@@ -16,11 +18,16 @@ export class ShipDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: ShipsService
+    private service: ShipsService,
+    private _location: Location
   ) { }
 
   ngOnInit(): void {
     this.getShipById(this.route.snapshot.params['id']);
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   getShipById(shipId: string) {

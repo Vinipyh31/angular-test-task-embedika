@@ -1,16 +1,50 @@
-<span>Вернуться</span>
-<p>{{ship.name}}</p>
-<div>
-    <span>Тип</span>
-    <span>{{ship.type}}</span>
-    <span>Порт</span>
-    <span>{{ship.home_port}}</span>
+<div class="ship-detail">
+    <div class="back-button__container blue" (click)="backClicked()">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M9.66667 4.41665L2.5675 4.41665L5.82834 1.15581L5 0.333313L0.333336 4.99998L5 9.66665L5.8225 8.84415L2.5675 5.58331L9.66667 5.58331V4.41665Z"
+                fill="#2962FF" />
+        </svg>
+        <span class="back-button">Вернуться</span>
+    </div>
+    <div *ngIf="isLoading" [ngStyle]="{
+                'width': '100%',
+                'height':'100%',
+                    'display':'flex',
+                    'justify-content': 'center',
+                    'align-items': 'center'
+                }">
+        <app-loader></app-loader>
+    </div>
+    <div *ngIf="!isLoading">
+        <h1 class="ship-name">{{ship.name}}</h1>
+        <div class="ship-data">
+            <div class="data-table">
+                <div class="data-block">
+                    <span class="data-name">Тип</span>
+                    <span class="blue">{{ship.type}}</span>
+                </div>
+                <div class="data-block">
+                    <span class="data-name">Порт</span>
+                    <span class="blue">{{ship.home_port}}</span>
+                </div>
+
+                <div class="data-block">
+                    <span class="data-name">Вес</span>
+                    <span class="blue">{{ship.weight_kg ? ship.weight_kg: 'Нет данных'}}</span>
+                </div>
+                <div class="data-block">
+                    <span class="data-name">Год</span>
+                    <span class="blue">{{ship.year_built}}</span>
+                </div>
+            </div>
+            <div class="mission-data">
+                <span class="data-name">Миссии</span>
+                <div class="missions">
+                    <span class="blue">{{ missions }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<div>
-    <span>Вес</span>
-    <span>{{ship.weight_kg}}</span>
-    <span>Год</span>
-    <span>{{ship.year_built}}</span>
-</div>
-<span>Миссии</span>
-<span>{{ missions }}</span>

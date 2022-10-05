@@ -23,12 +23,16 @@
         display: grid;
         grid-template-columns: 30% 30% 1fr;
 
-        .info-name {
-            margin-right: 104px;
+        div {
+            display: flex;
+
+            .info-name {
+                margin-right: 104px;
+            }
+
+            .blue {
+                display: block;
+            }
         }
     }
-}
-
-.blue {
-    color: #2962FF;
 }

@@ -7,6 +7,8 @@
 
 
     .ship-list {
+        padding: 62px 64px 0;
+        background: #FAFAFA;
 
         .title {
             font-size: 28px;
@@ -15,8 +17,22 @@
 
         }
 
-        padding: 62px 64px;
-        background: #FAFAFA;
+        .main-data {
+
+            .pagination {
+                margin-top: 52px;
+
+                .page-number {
+                    margin: 0 26.59px
+                }
+
+                .pagination-up {
+                    transform: rotate(180deg);
+                    
+                }
+            }
+        }
+
     }
 
     .filters {

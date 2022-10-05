@@ -22,7 +22,7 @@ export class ShipsComponent implements OnInit {
   isLoading = true;
 
 
-  constructor(public client: ShipsService) {
+  constructor(public shipsService: ShipsService) {
   }
 
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class ShipsComponent implements OnInit {
 
   getShips() {
     const offset = (this.page - 1) * 3;
-    fetch(this.client.url, {
+    fetch(this.shipsService.url, {
       method: 'POST',
 
       headers: {

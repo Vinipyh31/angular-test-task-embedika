@@ -1,0 +1,46 @@
+.ship-detail {
+    padding: 48px 64px;
+    width: 100vw;
+    height: 100vh;
+
+    .back-button__container {
+        margin-bottom: 22px;
+        cursor: pointer;
+    }
+
+    .ship-name {
+        font-size: 28px;
+        margin-bottom: 53px;
+    }
+
+    .ship-data {
+        max-width: 699px;
+
+
+        .data-table {
+            display: grid;
+            grid-template: 1fr 1fr / 1fr 1fr;
+            row-gap: 40px;
+            column-gap: 200px;
+
+            .data-block {
+                display: grid;
+                grid-template-columns: 34px 1fr;
+                column-gap: 104px;
+            }
+        }
+
+        .mission-data {
+            .data-name {
+                display: block;
+                margin-top: 40px;
+            }
+
+            .missions {
+                margin-top: 22px;
+            }
+        }
+
+
+    }
+}
