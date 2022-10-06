@@ -15,23 +15,23 @@
                 <app-ship-item [ship]="ship"></app-ship-item>
             </div>
             <div class="pagination">
-                <svg class="pagination-down" [ngStyle]="{
-                    'fill': (page == 1) ? '#3C474C': '#2962FF'
-                }"
-                 width="8" height="12" viewBox="0 0 8 12"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z"  />
-                </svg>
+                <div class="pagination-down" (click)="decrementPage()">
+                    <svg [ngStyle]="{
+                                        'fill': (page == 1) ? '#3C474C': '#2962FF'
+                                    }" width="8" height="12" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z" />
+                    </svg>
+                </div>
                 <span class="page-number">{{page}}</span>
-                <svg class="pagination-up" [ngStyle]="{
-                    'fill': '#2962FF'
-                }"
-                width="8" height="12" viewBox="0 0 8 12" 
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z" />
-                </svg>
+                <div class="pagination-up" (click)="incrementPage()">
+                    <svg [ngStyle]="{
+                                        'fill': '#2962FF'
+                                    }" width="8" height="12" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z" />
+                    </svg>
+                </div>
 
             </div>
         </div>
@@ -50,13 +50,16 @@
             </div>
             <div id="checkboxes" [ngStyle]="{'display': expanded ? 'flex' : 'none' }">
                 <label for="one">
-                    <input type="checkbox" id="one" (click)="onCheckBoxClick($event)" value="Port Canaveral" />Port
+                    <input type="checkbox" id="one" (click)="onCheckBoxClick($event)" value="Port Canaveral"
+                        [checked]="ports.includes('Port Canaveral')" />Port
                     Canaveral</label>
                 <label for="two">
-                    <input type="checkbox" id="two" (click)="onCheckBoxClick($event)" value="Port of Los Angeles" />Port
+                    <input type="checkbox" id="two" (click)="onCheckBoxClick($event)" value="Port of Los Angeles"
+                        [checked]="ports.includes('Port of Los Angeles')" />Port
                     of Los Angeles</label>
                 <label for="three">
-                    <input type="checkbox" id="three" (click)="onCheckBoxClick($event)" value="Fort Lauderdale" />Fort
+                    <input type="checkbox" id="three" (click)="onCheckBoxClick($event)" value="Fort Lauderdale"
+                        [checked]="ports.includes('Fort Lauderdale')" />Fort
                     Lauderdale</label>
             </div>
         </div>
@@ -64,17 +67,21 @@
         <div class="search-type">
             <span>Тип </span>
             <label>
-                <input type="radio" value="Barge" (click)="onRadioClick($event)" name="type" id="1">Barge
+                <input type="radio" value="Barge" (click)="onRadioClick($event)" name="type" id="1"
+                    [checked]="type === 'Barge'">Barge
             </label>
             <label>
-                <input type="radio" value="Cargo" (click)="onRadioClick($event)" name="type" id="2">Cargo
+                <input type="radio" value="Cargo" (click)="onRadioClick($event)" name="type" id="2"
+                    [checked]="type === 'Cargo'">Cargo
             </label>
             <label>
-                <input type="radio" value="High Speed Craft" (click)="onRadioClick($event)" name="type" id="3">High
+                <input type="radio" value="High Speed Craft" (click)="onRadioClick($event)" name="type" id="3"
+                    [checked]="type === 'High Speed Craft'">High
                 Speed Craft
             </label>
             <label>
-                <input type="radio" value="Tug" (click)="onRadioClick($event)" name="type" id="4">Tug
+                <input type="radio" value="Tug" (click)="onRadioClick($event)" name="type" id="4"
+                    [checked]="type === 'Tug'">Tug
             </label>
         </div>
     </div>

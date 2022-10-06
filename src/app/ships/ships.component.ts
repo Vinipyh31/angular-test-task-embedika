@@ -1,6 +1,7 @@
 import { ShipsService } from './../ships.service';
 import { Component, OnInit } from '@angular/core';
 import { IShip } from '../types';
+import { take } from 'rxjs';
 
 
 @Component({
@@ -13,16 +14,21 @@ import { IShip } from '../types';
 export class ShipsComponent implements OnInit {
 
   type = "";
-  expanded = false;
-  ports: String[] = [];
-  ships: IShip[] = [];
-  shipsOnPage: IShip[] = [];
   page = 0;
   nameInput = "";
+  ports: string[] = [];
+
+  expanded = false;
+  ships: IShip[] = [];
+  shipsOnPage: IShip[] = [];
   isLoading = true;
 
 
   constructor(public shipsService: ShipsService) {
+    shipsService.type.subscribe(value => { this.type = value })
+    shipsService.pageNum.subscribe(value => { this.page = value })
+    shipsService.nameInput.subscribe(value => { this.nameInput = value })
+    shipsService.ports.subscribe(value => { this.ports = value })
   }
 
   ngOnInit(): void {
@@ -56,23 +62,23 @@ export class ShipsComponent implements OnInit {
       .then(res => {
         this.ships = res.data.ships;
         this.ships = this.ships
-          // .filter((ship: IShip) => this.nameInput.includes(ship.name))
-          // .filter((ship: IShip) =>  true)//this.ports.includes(ship.type))
-          // .filter((ship: IShip) =>  true)//ship.type == this.type)
+        // .filter((ship: IShip) => this.nameInput.includes(ship.name))
+        // .filter((ship: IShip) =>  true)//this.ports.includes(ship.type))
+        // .filter((ship: IShip) =>  true)//ship.type == this.type)
         console.log(this.ships);
         this.isLoading = false;
-        this.shipsOnPage = this.ships.slice(this.page, this.page + 5)
+        const startPosition = (this.page - 1) * 5;
+        this.shipsOnPage = this.ships.slice(startPosition, startPosition + 5);
       })
   }
 
   onCheckBoxClick(e: Event): void {
     let target = e.target as HTMLInputElement;
     if (this.ports.includes(target.value)) {
-      this.ports = this.ports.filter(port => port !== target.value);
+      this.shipsService.changePorts(this.ports.filter(port => port !== target.value));
     } else {
-      this.ports = [...this.ports, target.value];
+      this.shipsService.changePorts([...this.ports, target.value]);
     }
-    this.ships = this.ships.filter((ship: IShip) => this.ports.includes(ship.type))
   }
 
 
@@ -81,11 +87,9 @@ export class ShipsComponent implements OnInit {
     console.log(this.ships);
 
     if (target.value == this.type) {
-      target.checked = false;
-      this.type = "";
+      this.shipsService.changeType("");
     } else {
-      target.checked = true;
-      this.type = (e.target as HTMLInputElement).value;
+      this.shipsService.changeType((e.target as HTMLInputElement).value);
     }
   }
 
@@ -97,6 +101,21 @@ export class ShipsComponent implements OnInit {
     }
   }
 
+  incrementPage(): void {
+    const totalPages = Math.ceil(this.ships.length / 5)
+    if (this.page < totalPages) {
+      this.shipsService.changePageNum(++this.page);
+      const startPosition = (this.page - 1) * 5;
+      this.shipsOnPage = this.ships.slice(startPosition, startPosition + 5);
+    }
+  }
 
+  decrementPage(): void {
+    if (this.page > 1) {
+      this.shipsService.changePageNum(--this.page)
+      const startPosition = (this.page - 1) * 5;
+      this.shipsOnPage = this.ships.slice(startPosition, startPosition + 5);
+    }
+  }
 
 }

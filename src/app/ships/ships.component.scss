@@ -21,14 +21,29 @@
 
             .pagination {
                 margin-top: 52px;
+                display: flex;
 
                 .page-number {
-                    margin: 0 26.59px
+                    margin: 0 16.59px;
+                    font-weight: 500;
                 }
 
+                .pagination-down {
+                    cursor: pointer;
+                    svg {
+                        margin: 5px
+                    }
+                }
+
+
+
                 .pagination-up {
-                    transform: rotate(180deg);
+                    cursor: pointer;
                     
+                    svg {
+                        transform: rotate(180deg);
+                        margin: 5px
+                    }
                 }
             }
         }
