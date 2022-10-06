@@ -8,7 +8,6 @@ import { ShipDetailComponent } from './ship-detail/ship-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from './loader/loader.component';
 import { ShipItemComponent } from './ship-item/ship-item.component';
-import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,6 @@ import { SearchPipe } from './search.pipe';
     ShipDetailComponent,
     LoaderComponent,
     ShipItemComponent,
-    SearchPipe
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
 
 export class ShipsComponent implements OnInit {
 
-  math = Math; //Просто не знал как использовать Math в html;
+  math = Math; // Не мог использовать Math в html без этой строчки;
 
   type = "";
   page = 1;
