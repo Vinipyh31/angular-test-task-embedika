@@ -52,6 +52,10 @@ export class ShipsComponent implements OnInit {
       .filter(ship => this.ports.length == 0 ? true : this.ports.includes(ship.home_port))
       .filter(ship => this.type == "" ? true : ship.type == this.type);
 
+    if (this.page > Math.ceil(this.filteredShipList.length / 5)) {
+      this.shipsService.changePageNum(1);
+    }
+
     this.renderShipsOnPage();
   }
 
