@@ -14,7 +14,7 @@ import { take } from 'rxjs';
 export class ShipsComponent implements OnInit {
 
   type = "";
-  page = 0;
+  page = 1;
   nameInput = "";
   ports: string[] = [];
 
@@ -33,6 +33,11 @@ export class ShipsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getShips()
+  }
+
+  onInputChange(e : Event) {
+    let target = e.target as HTMLInputElement;
+    this.shipsService.changeNameInput(target.value)
   }
 
   getShips() {

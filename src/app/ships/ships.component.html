@@ -38,7 +38,7 @@
     </div>
     <div class="filters">
         <h2>Фильтры</h2>
-        <input class="search-name" type="text" [(ngModel)]="nameInput" placeholder="Название">
+        <input class="search-name" type="text" [value]="nameInput" (change)="onInputChange($event)" placeholder="Название" lol>
 
         <div class="multiselect">
             <div class="selectBox" (click)="showCheckboxes()">
