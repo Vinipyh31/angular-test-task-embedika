@@ -1,7 +1,7 @@
 import { ShipsService } from './../ships.service';
 import { Component, OnInit } from '@angular/core';
 import { IShip } from '../types';
-import { take } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 
 
 @Component({
@@ -13,10 +13,14 @@ import { take } from 'rxjs';
 
 export class ShipsComponent implements OnInit {
 
+  math = Math; //Просто не знал как использовать Math в html;
+
   type = "";
   page = 1;
   nameInput = "";
   ports: string[] = [];
+
+  filteredShipList: IShip[] = [];
 
   expanded = false;
   ships: IShip[] = [];
@@ -35,9 +39,27 @@ export class ShipsComponent implements OnInit {
     this.getShips()
   }
 
-  onInputChange(e : Event) {
+
+  renderShipsOnPage() {
+    const startPosition = (this.page - 1) * 5;
+    this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);
+  }
+
+  filterList() {
+
+    this.filteredShipList = this.ships
+      .filter(ship => this.nameInput == "" ? true : ship.name.toLowerCase().includes(this.nameInput.toLowerCase()))
+      .filter(ship => this.ports.length == 0 ? true : this.ports.includes(ship.home_port))
+      .filter(ship => this.type == "" ? true : ship.type == this.type);
+
+    this.renderShipsOnPage();
+  }
+
+  onInputChange(e: Event) {
     let target = e.target as HTMLInputElement;
-    this.shipsService.changeNameInput(target.value)
+    this.shipsService.changeNameInput(target.value);
+
+    this.filterList();
   }
 
   getShips() {
@@ -66,14 +88,10 @@ export class ShipsComponent implements OnInit {
       .then(res => res.json())
       .then(res => {
         this.ships = res.data.ships;
-        this.ships = this.ships
-        // .filter((ship: IShip) => this.nameInput.includes(ship.name))
-        // .filter((ship: IShip) =>  true)//this.ports.includes(ship.type))
-        // .filter((ship: IShip) =>  true)//ship.type == this.type)
-        console.log(this.ships);
-        this.isLoading = false;
+        this.filteredShipList = this.ships;
         const startPosition = (this.page - 1) * 5;
-        this.shipsOnPage = this.ships.slice(startPosition, startPosition + 5);
+        this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);
+        this.isLoading = false;
       })
   }
 
@@ -84,6 +102,7 @@ export class ShipsComponent implements OnInit {
     } else {
       this.shipsService.changePorts([...this.ports, target.value]);
     }
+    this.filterList();
   }
 
 
@@ -96,6 +115,7 @@ export class ShipsComponent implements OnInit {
     } else {
       this.shipsService.changeType((e.target as HTMLInputElement).value);
     }
+    this.filterList();
   }
 
   showCheckboxes(): void {
@@ -107,19 +127,17 @@ export class ShipsComponent implements OnInit {
   }
 
   incrementPage(): void {
-    const totalPages = Math.ceil(this.ships.length / 5)
+    const totalPages = Math.ceil(this.filteredShipList.length / 5)
     if (this.page < totalPages) {
       this.shipsService.changePageNum(++this.page);
-      const startPosition = (this.page - 1) * 5;
-      this.shipsOnPage = this.ships.slice(startPosition, startPosition + 5);
+      this.renderShipsOnPage();
     }
   }
 
   decrementPage(): void {
     if (this.page > 1) {
       this.shipsService.changePageNum(--this.page)
-      const startPosition = (this.page - 1) * 5;
-      this.shipsOnPage = this.ships.slice(startPosition, startPosition + 5);
+      this.renderShipsOnPage();
     }
   }
 
