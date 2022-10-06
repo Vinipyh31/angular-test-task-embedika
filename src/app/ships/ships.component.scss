@@ -19,6 +19,11 @@
 
         .main-data {
 
+            .empty-list {
+                margin-top: 40px;
+                text-align: center;
+            }
+
             .pagination {
                 margin-top: 52px;
                 display: flex;
@@ -34,8 +39,6 @@
                         margin: 5px
                     }
                 }
-
-
 
                 .pagination-up {
                     cursor: pointer;

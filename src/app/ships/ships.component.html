@@ -11,6 +11,7 @@
         </div>
         <div *ngIf="!isLoading" class="main-data">
             <span class="title">SpaceX Ships</span>
+            <div class="empty-list" *ngIf="!shipsOnPage.length" ><h3>Нет кораблей</h3></div>
             <div *ngFor="let ship of shipsOnPage">
                 <app-ship-item [ship]="ship"></app-ship-item>
             </div>
@@ -26,7 +27,7 @@
                 <span class="page-number">{{page}}</span>
                 <div class="pagination-up" (click)="incrementPage()">
                     <svg [ngStyle]="{
-                                        'fill': '#2962FF'
+                                        'fill': (page == ( math.ceil(filteredShipList.length / 5)) ) ? '#3C474C': '#2962FF'
                                     }" width="8" height="12" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z" />
@@ -38,7 +39,7 @@
     </div>
     <div class="filters">
         <h2>Фильтры</h2>
-        <input class="search-name" type="text" [value]="nameInput" (change)="onInputChange($event)" placeholder="Название">
+        <input class="search-name" type="text" [value]="nameInput" (keyup)="onInputChange($event)" placeholder="Название">
 
         <div class="multiselect">
             <div class="selectBox" (click)="showCheckboxes()">
