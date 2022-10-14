@@ -1,7 +1,8 @@
 import { ShipsService } from './../ships.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IShip } from '../types';
 import { BehaviorSubject, Observable, take } from 'rxjs';
+import { Apollo, gql } from 'apollo-angular';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
 })
 
 
-export class ShipsComponent implements OnInit {
+export class ShipsComponent implements OnInit, OnDestroy {
 
 
   type = "";
@@ -27,7 +28,10 @@ export class ShipsComponent implements OnInit {
   isLoading = true;
 
 
-  constructor(public shipsService: ShipsService) {
+  constructor(
+    public shipsService: ShipsService,
+    private apollo: Apollo
+  ) {
     shipsService.type.subscribe(value => { this.type = value })
     shipsService.pageNum.subscribe(value => { this.page = value })
     shipsService.nameInput.subscribe(value => { this.nameInput = value })
@@ -38,8 +42,11 @@ export class ShipsComponent implements OnInit {
     this.getShips()
   }
 
+  ngOnDestroy(): void {
+  }
+
   colorForFirstPage(): string {
-    return this.page == 1 ? '#3C474C' : '#2962FF'
+    return this.page == 1 ? '#3C474C' : '#2962FF';
   }
 
   colorForLastPage(): string {
@@ -69,22 +76,14 @@ export class ShipsComponent implements OnInit {
   onInputChange(e: Event) {
     let target = e.target as HTMLInputElement;
     this.shipsService.changeNameInput(target.value);
-
     this.filterList();
   }
 
-  getShips() {
-    // const offset = (this.page - 1) * 3;
-    fetch(this.shipsService.url, {
-      method: 'POST',
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        query: `
-        query {
+  getShips(): void {
+    this.apollo
+      .watchQuery({
+        query: gql`
+          query {
           ships {
                 weight_kg
                 type
@@ -95,10 +94,9 @@ export class ShipsComponent implements OnInit {
         }
         `
       })
-    })
-      .then(res => res.json())
-      .then(res => {
-        this.ships = res.data.ships;
+      .valueChanges.subscribe((result: any) => {
+        const shipsData = result.data.ships;
+        this.ships = shipsData;
         this.filteredShipList = this.ships;
         const startPosition = (this.page - 1) * 5;
         this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);

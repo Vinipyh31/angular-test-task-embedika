@@ -11,8 +11,6 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
 })
 export class ShipsService {
 
-  url = 'https://api.spacex.land/graphql';
-
   pageNum: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   pageNum$: Observable<number> = this.pageNum.asObservable();
   

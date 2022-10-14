@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { IShip } from '../types';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { gql, Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'app-ship-detail',
   templateUrl: './ship-detail.component.html',
   styleUrls: ['./ship-detail.component.scss']
 })
+
 export class ShipDetailComponent implements OnInit {
 
   ship = {} as IShip;
@@ -19,7 +20,8 @@ export class ShipDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: ShipsService,
-    private _location: Location
+    private _location: Location,
+    private apollo: Apollo
   ) { }
 
   ngOnInit(): void {
@@ -31,37 +33,32 @@ export class ShipDetailComponent implements OnInit {
   }
 
   getShipById(shipId: string) {
-    fetch(this.service.url, {
-      method: 'POST',
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        query: `
-        query {
-          ship(id: "${shipId}") {
-            name
-            type
-            home_port
-            year_built
-            weight_kg
-            missions {
+    this.apollo
+      .watchQuery({
+        query: gql`
+          query {
+            ship(id: "${shipId}") {
               name
+              type
+              home_port
+              year_built
+              weight_kg
+              missions {
+                name
+              }
             }
-          }
-        }`
+        }
+        `
       })
-    })
-      .then(res => res.json())
-      .then(res => {
-        this.ship = res.data.ship; 
-        this.isLoading = false; 
+      .valueChanges.subscribe((result: any) => {
+
+        this.ship = result.data.ship;
+        this.isLoading = false;
         this.missions = this.ship.missions.map(m => m.name);
         console.log(this.ship);
       })
   }
+
 
 
 }

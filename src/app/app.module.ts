@@ -8,6 +8,7 @@ import { ShipDetailComponent } from './ship-detail/ship-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from './loader/loader.component';
 import { ShipItemComponent } from './ship-item/ship-item.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ShipItemComponent } from './ship-item/ship-item.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    GraphQLModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
