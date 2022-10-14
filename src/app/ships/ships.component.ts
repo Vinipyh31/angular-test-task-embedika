@@ -13,7 +13,6 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
 
 export class ShipsComponent implements OnInit {
 
-  math = Math; // Не мог использовать Math в html без этой строчки;
 
   type = "";
   page = 1;
@@ -37,6 +36,14 @@ export class ShipsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getShips()
+  }
+
+  colorForFirstPage(): string {
+    return this.page == 1 ? '#3C474C' : '#2962FF'
+  }
+
+  colorForLastPage(): string {
+    return this.page == (Math.ceil(this.filteredShipList.length / 5)) ? '#3C474C' : '#2962FF'
   }
 
 
@@ -67,7 +74,7 @@ export class ShipsComponent implements OnInit {
   }
 
   getShips() {
-    const offset = (this.page - 1) * 3;
+    // const offset = (this.page - 1) * 3;
     fetch(this.shipsService.url, {
       method: 'POST',
 

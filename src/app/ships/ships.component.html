@@ -11,14 +11,16 @@
         </div>
         <div *ngIf="!isLoading" class="main-data">
             <span class="title">SpaceX Ships</span>
-            <div class="empty-list" *ngIf="!shipsOnPage.length" ><h3>Нет кораблей</h3></div>
+            <div class="empty-list" *ngIf="!shipsOnPage.length">
+                <h3>Нет кораблей</h3>
+            </div>
             <div *ngFor="let ship of shipsOnPage">
                 <app-ship-item [ship]="ship"></app-ship-item>
             </div>
             <div class="pagination">
                 <div class="pagination-down" (click)="decrementPage()">
                     <svg [ngStyle]="{
-                                        'fill': (page == 1) ? '#3C474C': '#2962FF'
+                                        'fill': colorForFirstPage()
                                     }" width="8" height="12" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z" />
@@ -27,7 +29,7 @@
                 <span class="page-number">{{page}}</span>
                 <div class="pagination-up" (click)="incrementPage()">
                     <svg [ngStyle]="{
-                                        'fill': (page == ( math.ceil(filteredShipList.length / 5)) ) ? '#3C474C': '#2962FF'
+                                        'fill': colorForLastPage()
                                     }" width="8" height="12" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M7.41 1.41L6 0L0 6L6 12L7.41 10.59L2.83 6L7.41 1.41Z" />
@@ -39,7 +41,8 @@
     </div>
     <div class="filters">
         <h2>Фильтры</h2>
-        <input class="search-name" type="text" [value]="nameInput" (keyup)="onInputChange($event)" placeholder="Название">
+        <input class="search-name" type="text" [value]="nameInput" (keyup)="onInputChange($event)"
+            placeholder="Название">
 
         <div class="multiselect">
             <div class="selectBox" (click)="showCheckboxes()">
@@ -77,8 +80,7 @@
             </label>
             <label>
                 <input type="radio" value="High Speed Craft" (click)="onRadioClick($event)" name="type" id="3"
-                    [checked]="type === 'High Speed Craft'">High
-                Speed Craft
+                    [checked]="type === 'High Speed Craft'">High Speed Craft
             </label>
             <label>
                 <input type="radio" value="Tug" (click)="onRadioClick($event)" name="type" id="4"
