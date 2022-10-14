@@ -117,7 +117,6 @@ export class ShipsComponent implements OnInit, OnDestroy {
 
   onRadioClick(e: Event): void {
     let target = e.target as HTMLInputElement;
-    console.log(this.ships);
 
     if (target.value == this.type) {
       this.shipsService.changeType("");

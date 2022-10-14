@@ -51,14 +51,9 @@ export class ShipDetailComponent implements OnInit {
         `
       })
       .valueChanges.subscribe((result: any) => {
-
         this.ship = result.data.ship;
         this.isLoading = false;
         this.missions = this.ship.missions.map(m => m.name);
-        console.log(this.ship);
       })
   }
-
-
-
 }
