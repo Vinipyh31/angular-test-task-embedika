@@ -47,7 +47,7 @@
         <div class="multiselect">
             <div class="selectBox" (click)="showCheckboxes()">
                 <span>Порт</span>
-                <select [ngStyle]="{'border-bottom': expanded ? '1px solid #347CFF' : '1px solid rgba(0, 0, 0, 0.3)' }">
+                <select [ngStyle]="{'border-bottom': '1px solid ' + (expanded ? '#347CFF' : 'rgba(0, 0, 0, 0.3)') }">
                     <option>Выбраны {{ports.length}}</option>
                 </select>
                 <div class="overSelect"></div>
