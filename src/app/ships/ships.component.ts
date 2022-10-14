@@ -1,8 +1,7 @@
-import { ShipsService } from './../ships.service';
+import { ApiService } from './../api.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IShip } from '../types';
-import { BehaviorSubject, Observable, take } from 'rxjs';
-import { Apollo, gql } from 'apollo-angular';
+import { ShipsService } from './../ships.service';
 
 
 @Component({
@@ -29,8 +28,8 @@ export class ShipsComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    public shipsService: ShipsService,
-    private apollo: Apollo
+    private shipsService: ShipsService,
+    private api: ApiService,
   ) {
     shipsService.type.subscribe(value => { this.type = value })
     shipsService.pageNum.subscribe(value => { this.page = value })
@@ -39,7 +38,14 @@ export class ShipsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getShips()
+    this.api.getShips().subscribe((result: any) => {
+      const shipsData = result.data.ships;
+      this.ships = shipsData;
+      this.filteredShipList = this.ships;
+      const startPosition = (this.page - 1) * 5;
+      this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);
+      this.isLoading = false;
+    })
   }
 
   ngOnDestroy(): void {
@@ -77,31 +83,6 @@ export class ShipsComponent implements OnInit, OnDestroy {
     let target = e.target as HTMLInputElement;
     this.shipsService.changeNameInput(target.value);
     this.filterList();
-  }
-
-  getShips(): void {
-    this.apollo
-      .watchQuery({
-        query: gql`
-          query {
-          ships {
-                weight_kg
-                type
-                name
-                home_port
-                id
-            }
-        }
-        `
-      })
-      .valueChanges.subscribe((result: any) => {
-        const shipsData = result.data.ships;
-        this.ships = shipsData;
-        this.filteredShipList = this.ships;
-        const startPosition = (this.page - 1) * 5;
-        this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);
-        this.isLoading = false;
-      })
   }
 
   onCheckBoxClick(e: Event): void {

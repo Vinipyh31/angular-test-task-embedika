@@ -1,3 +1,4 @@
+import { ApiService } from './../api.service';
 import { ShipsService } from './../ships.service';
 import { Component, OnInit } from '@angular/core';
 import { IShip } from '../types';
@@ -21,39 +22,18 @@ export class ShipDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private service: ShipsService,
     private _location: Location,
-    private apollo: Apollo
+    private api: ApiService
   ) { }
 
   ngOnInit(): void {
-    this.getShipById(this.route.snapshot.params['id']);
+    this.api.getShipById(this.route.snapshot.params['id']).subscribe((result: any) => {
+      this.ship = result.data.ship;
+      this.isLoading = false;
+      this.missions = this.ship.missions.map(m => m.name);
+    })
   }
 
   backClicked() {
     this._location.back();
-  }
-
-  getShipById(shipId: string) {
-    this.apollo
-      .watchQuery({
-        query: gql`
-          query {
-            ship(id: "${shipId}") {
-              name
-              type
-              home_port
-              year_built
-              weight_kg
-              missions {
-                name
-              }
-            }
-        }
-        `
-      })
-      .valueChanges.subscribe((result: any) => {
-        this.ship = result.data.ship;
-        this.isLoading = false;
-        this.missions = this.ship.missions.map(m => m.name);
-      })
   }
 }
