@@ -31,10 +31,15 @@ export class ShipsComponent implements OnInit, OnDestroy {
     private shipsService: ShipsService,
     private api: ApiService,
   ) {
-    shipsService.type.subscribe(value => { this.type = value })
-    shipsService.pageNum.subscribe(value => { this.page = value })
-    shipsService.nameInput.subscribe(value => { this.nameInput = value })
-    shipsService.ports.subscribe(value => { this.ports = value })
+    shipsService.type.subscribe(value => { this.type = value; this.filterList(); })
+    shipsService.pageNum.subscribe(value => {
+      this.page = value;
+      this.renderShipsOnPage();
+    })
+    shipsService.nameInput.subscribe(value => { this.nameInput = value; this.filterList(); })
+    shipsService.ports.subscribe(value => { this.ports = value; this.filterList(); })
+
+    // this.filteredShipList.subscribe(value => { })
   }
 
   ngOnInit(): void {
@@ -50,6 +55,7 @@ export class ShipsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
+
 
   colorForFirstPage(): string {
     return this.page == 1 ? '#3C474C' : '#2962FF';
@@ -76,13 +82,12 @@ export class ShipsComponent implements OnInit, OnDestroy {
       this.shipsService.changePageNum(1);
     }
 
-    this.renderShipsOnPage();
+    // this.renderShipsOnPage();
   }
 
   onInputChange(e: Event) {
     let target = e.target as HTMLInputElement;
     this.shipsService.changeNameInput(target.value);
-    this.filterList();
   }
 
   onCheckBoxClick(e: Event): void {
@@ -92,7 +97,6 @@ export class ShipsComponent implements OnInit, OnDestroy {
     } else {
       this.shipsService.changePorts([...this.ports, target.value]);
     }
-    this.filterList();
   }
 
 
@@ -104,7 +108,6 @@ export class ShipsComponent implements OnInit, OnDestroy {
     } else {
       this.shipsService.changeType((e.target as HTMLInputElement).value);
     }
-    this.filterList();
   }
 
   showCheckboxes(): void {
@@ -119,14 +122,14 @@ export class ShipsComponent implements OnInit, OnDestroy {
     const totalPages = Math.ceil(this.filteredShipList.length / 5)
     if (this.page < totalPages) {
       this.shipsService.changePageNum(++this.page);
-      this.renderShipsOnPage();
+      // this.renderShipsOnPage();
     }
   }
 
   decrementPage(): void {
     if (this.page > 1) {
       this.shipsService.changePageNum(--this.page)
-      this.renderShipsOnPage();
+      // this.renderShipsOnPage();
     }
   }
 
