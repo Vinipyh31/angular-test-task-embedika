@@ -3,7 +3,6 @@
     width: 100vw;
     height: 100vh;
     grid-template-columns: 1fr 393px;
-    overflow-y: scroll;
 
 
     .ship-list {
@@ -14,7 +13,6 @@
             font-size: 28px;
             line-height: 32px;
             color: rgba(0, 0, 0, 0.87);
-
         }
 
         .main-data {

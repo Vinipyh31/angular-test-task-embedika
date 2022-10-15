@@ -11,6 +11,9 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
 })
 export class ShipsService {
 
+  ships: BehaviorSubject<IShip[]> = new BehaviorSubject<IShip[]>([]);
+  ships$: Observable<IShip[]> = this.ships.asObservable();
+
   pageNum: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   pageNum$: Observable<number> = this.pageNum.asObservable();
 
@@ -23,8 +26,23 @@ export class ShipsService {
   type: BehaviorSubject<string> = new BehaviorSubject<string>('');
   type$: Observable<string> = this.type.asObservable();
 
+  totalPages: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  totalPages$: Observable<number> = this.totalPages.asObservable();
+
 
   constructor() { }
+
+  changeTotalPages(totalPages: number) {
+    this.totalPages$.pipe(take(1)).subscribe(() => {
+      this.totalPages.next(totalPages);
+    }).unsubscribe();
+  }
+
+  changeShips(ships: IShip[]) {
+    this.ships$.pipe(take(1)).subscribe(() => {
+      this.ships.next(ships);
+    }).unsubscribe();
+  }
 
   changePageNum(num: number) {
     this.pageNum$.pipe(take(1)).subscribe(() => {

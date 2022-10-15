@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from './loader/loader.component';
 import { ShipItemComponent } from './ship-item/ship-item.component';
 import { GraphQLModule } from './graphql.module';
+import { FilterPipe } from './ships/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { GraphQLModule } from './graphql.module';
     ShipDetailComponent,
     LoaderComponent,
     ShipItemComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

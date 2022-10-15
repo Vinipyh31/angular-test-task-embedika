@@ -11,10 +11,10 @@
         </div>
         <div *ngIf="!isLoading" class="main-data">
             <span class="title">SpaceX Ships</span>
-            <div class="empty-list" *ngIf="!shipsOnPage.length">
+            <div class="empty-list" *ngIf="!(ships | filter: page:nameInput:ports:type).length">
                 <h3>Нет кораблей</h3>
             </div>
-            <div *ngFor="let ship of shipsOnPage">
+            <div *ngFor="let ship of ships |filter: page:nameInput:ports:type">
                 <app-ship-item [ship]="ship"></app-ship-item>
             </div>
             <div class="pagination">

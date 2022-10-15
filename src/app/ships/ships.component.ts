@@ -11,19 +11,15 @@ import { ShipsService } from './../ships.service';
 })
 
 
-export class ShipsComponent implements OnInit, OnDestroy {
-
+export class ShipsComponent implements OnInit {
 
   type = "";
   page = 1;
   nameInput = "";
   ports: string[] = [];
-
-  filteredShipList: IShip[] = [];
-
+  totalPages = 0;
   expanded = false;
   ships: IShip[] = [];
-  shipsOnPage: IShip[] = [];
   isLoading = true;
 
 
@@ -31,58 +27,29 @@ export class ShipsComponent implements OnInit, OnDestroy {
     private shipsService: ShipsService,
     private api: ApiService,
   ) {
-    shipsService.type.subscribe(value => { this.type = value; this.filterList(); })
-    shipsService.pageNum.subscribe(value => {
-      this.page = value;
-      this.renderShipsOnPage();
-    })
-    shipsService.nameInput.subscribe(value => { this.nameInput = value; this.filterList(); })
-    shipsService.ports.subscribe(value => { this.ports = value; this.filterList(); })
-
-    // this.filteredShipList.subscribe(value => { })
+    shipsService.type.subscribe(value => { this.type = value })
+    shipsService.pageNum.subscribe(value => { this.page = value })
+    shipsService.nameInput.subscribe(value => { this.nameInput = value })
+    shipsService.ports.subscribe(value => { this.ports = value })
+    shipsService.ships.subscribe(value => { this.ships = value })
+    shipsService.totalPages.subscribe(value => { this.totalPages = value })
   }
 
   ngOnInit(): void {
     this.api.getShips().subscribe((result: any) => {
       const shipsData = result.data.ships;
-      this.ships = shipsData;
-      this.filteredShipList = this.ships;
-      const startPosition = (this.page - 1) * 5;
-      this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);
+      this.shipsService.changeShips(shipsData);
+      this.shipsService.changeTotalPages(Math.ceil(shipsData.length / 5))
       this.isLoading = false;
     })
   }
-
-  ngOnDestroy(): void {
-  }
-
 
   colorForFirstPage(): string {
     return this.page == 1 ? '#3C474C' : '#2962FF';
   }
 
   colorForLastPage(): string {
-    return this.page == (Math.ceil(this.filteredShipList.length / 5)) ? '#3C474C' : '#2962FF'
-  }
-
-
-  renderShipsOnPage() {
-    const startPosition = (this.page - 1) * 5;
-    this.shipsOnPage = this.filteredShipList.slice(startPosition, startPosition + 5);
-  }
-
-  filterList() {
-
-    this.filteredShipList = this.ships
-      .filter(ship => this.nameInput == "" ? true : ship.name.toLowerCase().includes(this.nameInput.toLowerCase()))
-      .filter(ship => this.ports.length == 0 ? true : this.ports.includes(ship.home_port))
-      .filter(ship => this.type == "" ? true : ship.type == this.type);
-
-    if (this.page > Math.ceil(this.filteredShipList.length / 5)) {
-      this.shipsService.changePageNum(1);
-    }
-
-    // this.renderShipsOnPage();
+    return this.page == this.totalPages ? '#3C474C' : '#2962FF'
   }
 
   onInputChange(e: Event) {
@@ -98,7 +65,6 @@ export class ShipsComponent implements OnInit, OnDestroy {
       this.shipsService.changePorts([...this.ports, target.value]);
     }
   }
-
 
   onRadioClick(e: Event): void {
     let target = e.target as HTMLInputElement;
@@ -119,17 +85,14 @@ export class ShipsComponent implements OnInit, OnDestroy {
   }
 
   incrementPage(): void {
-    const totalPages = Math.ceil(this.filteredShipList.length / 5)
-    if (this.page < totalPages) {
+    if (this.page < this.totalPages) {
       this.shipsService.changePageNum(++this.page);
-      // this.renderShipsOnPage();
     }
   }
 
   decrementPage(): void {
     if (this.page > 1) {
       this.shipsService.changePageNum(--this.page)
-      // this.renderShipsOnPage();
     }
   }
 
