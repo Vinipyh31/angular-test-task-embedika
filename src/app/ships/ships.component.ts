@@ -1,6 +1,6 @@
-import { ApiService } from './../api.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IShip } from '../types';
+import { ApiService } from './../api.service';
 import { ShipsService } from './../ships.service';
 
 

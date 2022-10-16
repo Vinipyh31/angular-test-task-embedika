@@ -1,5 +1,5 @@
-import { IShip } from './../types/index';
 import { Component, Input, OnInit } from '@angular/core';
+import { IShip } from './../types/index';
 
 @Component({
   selector: 'app-ship-item',

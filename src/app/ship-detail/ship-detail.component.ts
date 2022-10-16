@@ -1,10 +1,8 @@
-import { ApiService } from './../api.service';
-import { ShipsService } from './../ships.service';
-import { Component, OnInit } from '@angular/core';
-import { IShip } from '../types';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { gql, Apollo } from 'apollo-angular';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IShip } from '../types';
+import { ApiService } from './../api.service';
 
 @Component({
   selector: 'app-ship-detail',
