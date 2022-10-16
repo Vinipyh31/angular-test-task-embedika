@@ -20,7 +20,6 @@ export class ShipDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: ShipsService,
     private _location: Location,
     private api: ApiService
   ) { }
